@@ -1,0 +1,16 @@
+
+
+oc new-app \
+    -e MYSQL_ROOT_PASSWORD=myrootpass \
+    -e MYSQL_USER=username \
+    -e MYSQL_PASSWORD=password \
+    -e MYSQL_DATABASE=database \
+    quay.io/sclorg/mysql-80-c9s
+
+oc expose service/mysql-56-rhel7
+
+oc get pods
+
+oc rsh <pod id>
+
+mysql CREATE users (id int, first_name varchar(255), last_name(255));
