@@ -16,3 +16,7 @@ oc rsh <pod id>
 mysql CREATE users (id int, first_name varchar(255), last_name(255));
 
 oc new-app https://github.com/YosefGu/OpenShift-SQL-Docker
+
+oc get deployments
+
+oc set env deployments/<deployment-name> 
