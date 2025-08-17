@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from dataloader import DataLoader
+from .dataloader import DataLoader
 
 app = FastAPI()
 data_loader = DataLoader()
