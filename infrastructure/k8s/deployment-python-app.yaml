@@ -3,18 +3,18 @@ apiVersion: apps/v1
 metadata:
   annotations:
     deployment.kubernetes.io/revision: '2'
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"openshift-sql-docker:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"openshift-sql-docker\")].image"}]'
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"python-app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"python-app\")].image"}]'
     openshift.io/generated-by: OpenShiftNewApp
-  resourceVersion: '2519624962'
-  name: openshift-sql-docker
-  uid: 06b0ba6f-b957-474a-b804-63658c4c6ba8
-  creationTimestamp: '2025-08-14T13:40:13Z'
+  resourceVersion: '2601778561'
+  name: python-app
+  uid: 3be1355b-570d-4e56-aba3-7f20f269b274
+  creationTimestamp: '2025-08-17T07:18:41Z'
   generation: 2
   managedFields:
     - manager: oc
       operation: Update
       apiVersion: apps/v1
-      time: '2025-08-14T13:40:13Z'
+      time: '2025-08-17T07:18:41Z'
       fieldsType: FieldsV1
       fieldsV1:
         'f:metadata':
@@ -48,8 +48,26 @@ metadata:
                 'f:deployment': {}
             'f:spec':
               'f:containers':
-                'k:{"name":"openshift-sql-docker"}':
+                'k:{"name":"python-app"}':
                   .: {}
+                  'f:env':
+                    .: {}
+                    'k:{"name":"MYSQL_DATABASE"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                    'k:{"name":"MYSQL_HOST"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                    'k:{"name":"MYSQL_PASSWORD"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                    'k:{"name":"MYSQL_USER"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
                   'f:imagePullPolicy': {}
                   'f:name': {}
                   'f:resources': {}
@@ -63,25 +81,26 @@ metadata:
     - manager: openshift-controller-manager
       operation: Update
       apiVersion: apps/v1
-      time: '2025-08-14T13:40:47Z'
+      time: '2025-08-17T07:19:15Z'
       fieldsType: FieldsV1
       fieldsV1:
         'f:spec':
           'f:template':
             'f:spec':
               'f:containers':
-                'k:{"name":"openshift-sql-docker"}':
+                'k:{"name":"python-app"}':
                   'f:image': {}
     - manager: kube-controller-manager
       operation: Update
       apiVersion: apps/v1
-      time: '2025-08-14T13:41:31Z'
+      time: '2025-08-17T07:19:19Z'
       fieldsType: FieldsV1
       fieldsV1:
         'f:metadata':
           'f:annotations':
             'f:deployment.kubernetes.io/revision': {}
         'f:status':
+          'f:availableReplicas': {}
           'f:conditions':
             .: {}
             'k:{"type":"Available"}':
@@ -101,31 +120,40 @@ metadata:
               'f:status': {}
               'f:type': {}
           'f:observedGeneration': {}
+          'f:readyReplicas': {}
           'f:replicas': {}
-          'f:unavailableReplicas': {}
           'f:updatedReplicas': {}
       subresource: status
   namespace: yosefgu-dev
   labels:
-    app: openshift-sql-docker
-    app.kubernetes.io/component: openshift-sql-docker
-    app.kubernetes.io/instance: openshift-sql-docker
+    app: python-app
+    app.kubernetes.io/component: python-app
+    app.kubernetes.io/instance: python-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      deployment: openshift-sql-docker
+      deployment: python-app
   template:
     metadata:
       creationTimestamp: null
       labels:
-        deployment: openshift-sql-docker
+        deployment: python-app
       annotations:
         openshift.io/generated-by: OpenShiftNewApp
     spec:
       containers:
-        - name: openshift-sql-docker
-          image: 'image-registry.openshift-image-registry.svc:5000/yosefgu-dev/openshift-sql-docker@sha256:11b13b611493f816ad4e80c94aafd37cf11d115e962fc64020131e35ae569f9c'
+        - name: python-app
+          image: 'image-registry.openshift-image-registry.svc:5000/yosefgu-dev/python-app@sha256:c36d9c29e3c0c1c9d42ff010850d867a1488339f45384bc04e221747f78d6c70'
+          env:
+            - name: MYSQL_DATABASE
+              value: database
+            - name: MYSQL_HOST
+              value: mysql-80-c9s
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_USER
+              value: username
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
@@ -146,17 +174,18 @@ status:
   observedGeneration: 2
   replicas: 1
   updatedReplicas: 1
-  unavailableReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
   conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2025-08-17T07:19:19Z'
+      lastTransitionTime: '2025-08-17T07:19:19Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
     - type: Progressing
       status: 'True'
-      lastUpdateTime: '2025-08-14T13:40:50Z'
-      lastTransitionTime: '2025-08-14T13:40:13Z'
+      lastUpdateTime: '2025-08-17T07:19:19Z'
+      lastTransitionTime: '2025-08-17T07:18:41Z'
       reason: NewReplicaSetAvailable
-      message: ReplicaSet "openshift-sql-docker-b8fbf895b" has successfully progressed.
-    - type: Available
-      status: 'False'
-      lastUpdateTime: '2025-08-14T13:41:31Z'
-      lastTransitionTime: '2025-08-14T13:41:31Z'
-      reason: MinimumReplicasUnavailable
-      message: Deployment does not have minimum availability.
+      message: ReplicaSet "python-app-b57b6694c" has successfully progressed.

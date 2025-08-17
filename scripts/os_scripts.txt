@@ -1,11 +1,27 @@
 
+-- create a persistent volume -- 
+oc apply -f - <<EOF 
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: mysql-pvc
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+EOF
+
 -- create a sql server -- 
-oc new-app \
+oc new-app quay.io/sclorg/mysql-80-c9s \
+    --name=mysql-server \
     -e MYSQL_ROOT_PASSWORD=myrootpass \
     -e MYSQL_USER=username \
     -e MYSQL_PASSWORD=password \
     -e MYSQL_DATABASE=database \
-    quay.io/sclorg/mysql-80-c9s
+    --mount pvc=mysql-pvc,container-path=/var/lib/mysql
+
 
 -- expose the server --
 oc expose service/mysql<id>
@@ -36,3 +52,4 @@ oc expose deployment/python-app --port=8000 --target-port=8000 --name=python-app
 
 -- expose the service --
 oc expose svc/python-app-svc
+

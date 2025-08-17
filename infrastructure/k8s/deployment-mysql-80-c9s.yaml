@@ -5,16 +5,16 @@ metadata:
     deployment.kubernetes.io/revision: '2'
     image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"mysql-80-c9s:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"mysql-80-c9s\")].image"}]'
     openshift.io/generated-by: OpenShiftNewApp
-  resourceVersion: '2517946558'
+  resourceVersion: '2600510538'
   name: mysql-80-c9s
-  uid: 10ead7c8-6995-41bf-bc84-c15b12cf8d8a
-  creationTimestamp: '2025-08-14T12:21:53Z'
+  uid: a29a7b7c-b6c1-4b32-b0ca-aba83df452f2
+  creationTimestamp: '2025-08-17T06:19:08Z'
   generation: 2
   managedFields:
     - manager: oc
       operation: Update
       apiVersion: apps/v1
-      time: '2025-08-14T12:21:53Z'
+      time: '2025-08-17T06:19:08Z'
       fieldsType: FieldsV1
       fieldsV1:
         'f:metadata':
@@ -87,7 +87,7 @@ metadata:
     - manager: openshift-controller-manager
       operation: Update
       apiVersion: apps/v1
-      time: '2025-08-14T12:21:53Z'
+      time: '2025-08-17T06:19:08Z'
       fieldsType: FieldsV1
       fieldsV1:
         'f:spec':
@@ -99,7 +99,7 @@ metadata:
     - manager: kube-controller-manager
       operation: Update
       apiVersion: apps/v1
-      time: '2025-08-14T12:22:01Z'
+      time: '2025-08-17T06:19:10Z'
       fieldsType: FieldsV1
       fieldsV1:
         'f:metadata':
@@ -188,13 +188,13 @@ status:
   conditions:
     - type: Available
       status: 'True'
-      lastUpdateTime: '2025-08-14T12:22:01Z'
-      lastTransitionTime: '2025-08-14T12:22:01Z'
+      lastUpdateTime: '2025-08-17T06:19:10Z'
+      lastTransitionTime: '2025-08-17T06:19:10Z'
       reason: MinimumReplicasAvailable
       message: Deployment has minimum availability.
     - type: Progressing
       status: 'True'
-      lastUpdateTime: '2025-08-14T12:22:01Z'
-      lastTransitionTime: '2025-08-14T12:21:53Z'
+      lastUpdateTime: '2025-08-17T06:19:10Z'
+      lastTransitionTime: '2025-08-17T06:19:08Z'
       reason: NewReplicaSetAvailable
       message: ReplicaSet "mysql-80-c9s-dc7664957" has successfully progressed.
