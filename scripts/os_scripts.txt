@@ -1,5 +1,5 @@
 
-
+-- create a sql server -- 
 oc new-app \
     -e MYSQL_ROOT_PASSWORD=myrootpass \
     -e MYSQL_USER=username \
@@ -7,16 +7,32 @@ oc new-app \
     -e MYSQL_DATABASE=database \
     quay.io/sclorg/mysql-80-c9s
 
+-- expose the server --
 oc expose service/mysql<id>
 
+-- entering to pod --
 oc get pods
-
 oc rsh <pod id>
 
-mysql CREATE TABLE users (id int, first_name varchar(255), last_name varchar(255));
+-- entering the mysql server --
+mysql --user=username --password database
 
-oc new-app https://github.com/YosefGu/OpenShift-SQL-Docker
+-- createing a table into database --
+CREATE TABLE users (id int, first_name varchar(255), last_name varchar(255)) ;
 
-oc get deployments
+-- adding data to table --
+INSERT INTO users (id, first_name, last_name) VALUES (1, 'Avi', 'Cohen') ;
 
-oc set env deployments/<deployment-name> 
+-- creating un image from my repo --
+oc new-app https://github.com/YosefGu/OpenShift-SQL-Docker \
+    --name=python-app \
+    -e MYSQL_HOST=mysql-80-c9s \
+    -e MYSQL_USER=username \
+    -e MYSQL_PASSWORD=password \
+    -e MYSQL_DATABASE=database
+
+-- create a service for python server container --
+oc expose deployment/python-app --port=8000 --target-port=8000 --name=python-app-svc
+
+-- expose the service --
+oc expose svc/python-app-svc
